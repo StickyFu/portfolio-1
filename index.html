@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NJ Jayme — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <style>
+    .glow-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .glow-underline::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(239, 68, 68, 0.7);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    .glow-underline:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    .section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      min-height: calc(100vh - 80px);
+    }
+    .section.show {
+      opacity: 1;
+      transform: none;
+    }
+    #hero {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    #hero.show {
+      opacity: 1;
+      transform: none;
+    }
+    @keyframes neon {
+      0%, 100% { text-shadow: 0 0 4px #ff4d4d, 0 0 10px #ff1a1a, 0 0 20px #ff0000; }
+      50% { text-shadow: 0 0 8px #ff6666, 0 0 20px #ff3333, 0 0 30px #ff0000; }
+    }
+    .neon-text {
+      animation: neon 2s ease-in-out infinite;
+    }
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    canvas#embers {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -10;
+      pointer-events: none;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 50;
+    }
+    .modal.open {
+      display: flex;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .glass-nav {
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.4s ease-out;
+    }
+.img-glow {
+  position: relative;
+  box-shadow:
+    0 0 3px #ff4d4d,
+    0 0 6px #ff1a1a,
+    0 0 10px #ff0000,
+    0 0 12px #ff6600;
+  animation: flickerFlame 1.3s infinite ease-in-out;
+  transition: box-shadow 0.5s ease, filter 0.5s ease;
+}
+
+.img-glow::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 0deg,
+    #ff0000,
+    #ff6600,
+    #ffaa00,
+    #ffcc00,
+    #ff6600,
+    #ff0000
+  );
+  filter: blur(12px) brightness(1.1);
+  animation: rotateGlow 6s linear infinite, flameFlicker 0.15s infinite;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Flicker animation */
+@keyframes flickerFlame {
+  0% {
+    box-shadow:
+      0 0 2px #ff4d4d,
+      0 0 5px #ff1a1a,
+      0 0 8px #ff0000,
+      0 0 10px #ff6600;
+  }
+  50% {
+    box-shadow:
+      0 0 4px #ff6b6b,
+      0 0 8px #ff3333,
+      0 0 10px #ff1a00,
+      0 0 12px #ff8000;
+  }
+  100% {
+    box-shadow:
+      0 0 3px #ff4d4d,
+      0 0 6px #ff1a1a,
+      0 0 10px #ff0000,
+      0 0 12px #ff6600;
+  }
+}
+
+/* Rotation (optional) */
+@keyframes rotateGlow {
+  to { transform: rotate(360deg); }
+}
+
+/* Optional: subtle pulse flicker */
+@keyframes flameFlicker {
+  0%, 100% { filter: blur(12px) brightness(1.1); }
+  50% { filter: blur(14px) brightness(1.3); }
+}
+
+/* 👇 Fade glow out on hover */
+.img-glow:hover {
+  box-shadow: none;
+}
+.img-glow:hover::before {
+  opacity: 0;
+}
+
+@keyframes flameFlicker {
+  0%   { opacity: 0.85; transform: scale(1); }
+  20%  { opacity: 0.95; transform: scale(1.05); }
+  40%  { opacity: 0.8;  transform: scale(1.02); }
+  60%  { opacity: 1;    transform: scale(1.06); }
+  80%  { opacity: 0.9;  transform: scale(1.03); }
+  100% { opacity: 0.87; transform: scale(1); }
+}
+@keyframes rotateGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.ember-sparks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: riseSparks 1.5s infinite ease-in-out;
+}
+
+.ember-sparks::before,
+.ember-sparks::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #ff6a00, #ff0000);
+  border-radius: 9999px;
+  opacity: 0.9;
+  animation: flickerSpark 0.8s infinite alternate, riseSparkY 1.8s linear infinite;
+}
+
+.ember-sparks::after {
+  left: 75%;
+  top: 80%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 0.4s, 0.3s;
+}
+
+@keyframes flickerSpark {
+  0% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 0.3; transform: scale(0.9); }
+}
+
+@keyframes riseSparkY {
+  0%   { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-100%) translateX(-10%); }
+}
+
+    
+  </style>
+
+
+</head>
+
+<body onload="showHero()" class="min-h-screen bg-gradient-to-br from-black via-red-950 to-red-800 text-white relative overflow-x-hidden noise-overlay">
+
+  <canvas id="embers"></canvas>
+
+  <!-- Navbar -->
+  <header class="glass-nav fixed top-0 inset-x-0 z-40">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
+      <span class="text-xl font-bold neon-text">NJ Jayme</span>
+      <button onclick="toggleNav()" class="md:hidden text-white text-2xl">&#9776;</button>
+     <ul class="hidden md:flex items-center gap-6 text-base font-medium">
+  <li><a href="#hero" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="hero">Home</a></li>
+  <li><a href="#projects" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="projects">Projects</a></li>
+  <li><a href="#tech" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="tech">Tech Stack</a></li>
+  <li><a href="#about" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="about">About</a></li>
+  <li><a href="#contact" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="contact">Contact</a></li>
+</ul>
+
+    </nav>
+
+   <ul id="mobileMenu" class="md:hidden hidden flex-col gap-4 text-base font-medium px-6 pb-4">
+  <li><a href="#hero" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="hero">Home</a></li>
+  <li><a href="#projects" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="projects">Projects</a></li>
+  <li><a href="#tech" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="tech">Tech Stack</a></li>
+  <li><a href="#about" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="about">About</a></li>
+  <li><a href="#contact" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="contact">Contact</a></li>
+</ul>
+
+  </header>
+
+  <!-- Hero -->
+  <section id="hero" class="min-h-screen flex items-center justify-center pt-24 px-4 text-center">
+    <main class="text-center">
+  <div class="img-container relative w-40 h-40 mx-auto mb-6 rounded-full overflow-visible img-glow float">
+  <img src="static/me.jpg" class="w-full h-full object-cover rounded-full border-4 border-red-600" alt="Me">
+  <div class="ember-sparks absolute inset-0 pointer-events-none z-10"></div>
+</div>
+
+
+
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide neon-text">NJ JAYME</h1>
+      <p class="text-base sm:text-lg md:text-xl text-red-300 mt-2">WEB DEVELOPER | DIGITAL CRAFTSMAN</p>
+    </main>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-10 text-center neon-text">Projects</h2>
+    <div id="projectGrid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"></div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-10 neon-text">My Tech Stack</h2>
+    <div id="techGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 text-red-300"></div>
+  </section>
+
+  <!-- About -->
+<section id="about" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+  <h2 class="text-4xl font-extrabold mb-12 text-center neon-text tracking-tight">About Me</h2>
+
+  <div class="bg-gradient-to-br from-gray-800 to-gray-900 border border-red-700 shadow-2xl rounded-2xl p-8 sm:p-12 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 text-red-200">
+
+    <!-- Bio Column -->
+    <div>
+      <h3 class="text-2xl font-semibold text-white mb-4">Who I Am</h3>
+      <p class="text-lg leading-relaxed">
+        Hi, I'm <span class="text-white font-semibold">NJ Jayme</span>, a backend-oriented developer with solid experience in <span class="text-white font-medium">Python, Django, and WordPress</span>.
+      </p>
+      <p class="text-lg leading-relaxed mt-4">
+        I also work on frontend projects using <span class="text-white font-medium">Vue.js and Tailwind CSS</span>. While I don't claim to be a designer, I build clean, responsive UIs with attention to structure and performance.
+      </p>
+      <p class="text-lg leading-relaxed mt-4">
+        I’m capable of developing <span class="text-white font-medium">desktop applications using C#</span> and planning to expand into <span class="text-white font-medium">mobile development</span> to offer cross-platform solutions.
+      </p>
+    </div>
+
+    <!-- Highlights Column -->
+    <div>
+      <h3 class="text-2xl font-semibold text-white mb-4">Highlights</h3>
+      <ul class="space-y-4 text-left">
+        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 highlight">
+          <i data-lucide="server" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
+          <span class="text-lg">Strong backend skills with Django, Python, and REST APIs</span>
+        </li>
+        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-100 highlight">
+          <i data-lucide="globe" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
+          <span class="text-lg">Experienced in WordPress development and CMS customization</span>
+        </li>
+        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-200 highlight">
+          <i data-lucide="app-window" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
+          <span class="text-lg">Develops desktop apps using C# and Windows Forms / WPF</span>
+        </li>
+        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-300 highlight">
+          <i data-lucide="smartphone" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
+          <span class="text-lg">Currently learning mobile development with Flutter</span>
+        </li>
+        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-400 highlight">
+          <i data-lucide="briefcase" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
+          <span class="text-lg">Completed real freelance projects for clients</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+  <!-- Contact -->
+<section id="contact" class="section hidden py-20 px-6 bg-red-950 bg-opacity-70 rounded-t-3xl shadow-inner">
+  <div class="max-w-xl mx-auto bg-gray-900 border border-red-700 rounded-2xl shadow-xl p-8 sm:p-10">
+    <h2 class="text-3xl font-bold neon-text text-center mb-4">Let’s Build Something Great</h2>
+    <p class="text-red-200 text-center mb-8">
+      Drop me a message and I’ll get back to you shortly.
+    </p>
+
+    <form onsubmit="handleSubmit(event)" method="POST" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm text-red-300 mb-1">Your Name</label>
+        <input type="text" id="name" name="name" required
+               class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm text-red-300 mb-1">Email Address</label>
+        <input type="email" id="email" name="email" required
+               class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm text-red-300 mb-1">Your Message</label>
+        <textarea id="message" name="message" rows="5" required
+                  class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit"
+                class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white text-lg px-8 py-3 rounded-full shadow-lg transition glow-link">
+          <i data-lucide="send"></i> Send Message
+        </button>
+      </div>
+
+      <div id="formSuccess" class="hidden mt-6 text-green-400 text-center text-lg font-semibold">
+  ✅ Message sent successfully!
+</div>
+    </form>
+  </div>
+</section>
+
+
+  <!-- Modal -->
+  <div id="projectModal" class="modal">
+    <div class="relative w-full max-w-2xl bg-gray-900 rounded-xl p-6 shadow-lg flex flex-col gap-4 max-h-[90vh] overflow-hidden">
+      <button id="closeModal" class="absolute top-3 right-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center z-60">&times;</button>
+      <h3 id="modalTitle" class="text-2xl font-semibold text-center"></h3>
+      <div class="swiper w-full h-64 sm:h-72 md:h-80 lg:h-[22rem] xl:h-[24rem] rounded-lg shrink-0">
+        <div class="swiper-wrapper" id="swiperWrapper"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+      <div class="overflow-y-auto max-h-[calc(90vh-22rem)] px-1 pb-2">
+        <div id="modalDesc" class="text-gray-300 text-center mt-2 px-2"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function toggleVideo() {
+      const v = document.getElementById("videoWrapper");
+      if (v) v.classList.toggle("hidden");
+    }
+  </script>
+
+  <!-- Scripts -->
+  <script>
+    function toggleNav() {
+      const nav = document.getElementById("mobileMenu");
+      nav.classList.toggle("hidden");
+    }
+
+    function showHero() {
+      document.getElementById("hero").classList.add("show");
+      window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll('.nav').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = e.target.dataset.target;
+        document.querySelectorAll('.section,#hero').forEach(s => {
+          s.classList.add('hidden');
+          s.classList.remove('show');
+        });
+        const sec = document.getElementById(id);
+        sec.classList.remove('hidden');
+        setTimeout(() => sec.classList.add('show'), 20);
+
+        // Hide mobile menu
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (!mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.add("hidden");
+        }
+      });
+    });
+
+    // Embers background
+    const canvas = document.getElementById('embers'), ctx = canvas.getContext('2d');
+    const colors = ['rgba(255,70,70,','rgba(255,160,60,','rgba(255,240,200,'];
+    let parts = [];
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+    resize();
+    addEventListener('resize', resize);
+    for (let i = 0; i < 150; i++) {
+      parts.push({
+        x: Math.random() * innerWidth,
+        y: Math.random() * innerHeight,
+        size: Math.random() * 4 + 1,
+        speedY: Math.random() * 0.7 + 0.2,
+        speedX: Math.random() * 1.5 - 0.75,
+        alpha: Math.random() * 0.4 + 0.2,
+        angle: Math.random() * 6.28,
+        rot: (Math.random() - 0.5) * 0.1,
+        color: colors[Math.random() * 3 | 0],
+        flare: Math.random() < 0.03
+      });
+    }
+    (function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      parts.forEach(p => {
+        p.angle += p.rot;
+        p.x += Math.cos(p.angle) * p.speedX;
+        p.y -= p.speedY;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.flare ? p.size * 2 : p.size, 0, 6.28);
+        ctx.fillStyle = `${p.color}${p.flare ? 1 : p.alpha})`;
+        ctx.shadowBlur = p.flare ? 20 : 0;
+        ctx.fill();
+        if (p.y < -5 || p.x < -5 || p.x > canvas.width + 5) {
+          p.y = canvas.height + 5;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(loop);
+    })();
+
+    // Tech stack
+ const techCategories = {
+  "Frontend": [
+    { name: 'HTML5', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+    { name: 'CSS3', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+    { name: 'JavaScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+    { name: 'Vue.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+    { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-ar21.svg' }
+  ],
+  "Backend": [
+    { name: 'Python', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+    { name: 'Django', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
+    { name: 'C#', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg' }
+  ],
+  "Database": [
+    { name: 'PostgreSQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' }
+  ],
+  "Mobile & Others": [
+    { name: 'Flutter', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' }
+  ]
+};
+
+const skillLevels = {
+  'HTML5': '30%',
+  'CSS3': '15%',
+  'JavaScript': '16%',
+  'Python': '25%',
+  'Django': '35%',
+  'Vue.js': '23%',
+  'Tailwind': '34%',
+  'PostgreSQL': '70%',
+  'C#': '28%',
+  'Flutter': '29%'
+};
+
+const techGrid = document.getElementById('techGrid');
+techGrid.innerHTML = '';
+
+Object.entries(techCategories).forEach(([category, tools]) => {
+  const section = document.createElement('div');
+  section.innerHTML = `<h3 class="text-xl font-semibold text-white mb-4 mt-10 text-left w-full col-span-full">${category}</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-4 w-full">`;
+
+  tools.forEach(t => {
+    const level = skillLevels[t.name] || '70%';
+    section.innerHTML += `
+      <div class="flex flex-col items-center space-y-2">
+        <img src="${t.url}" class="w-12 h-12" title="${t.name}" />
+        <span>${t.name}</span>
+        <div class="w-full h-2 bg-gray-700 rounded mt-1 relative group">
+          <div class="h-2 bg-red-600 rounded" style="width: ${level};" title="${level} proficient"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 -top-8 text-xs text-white bg-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+            ${level} proficient
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  section.innerHTML += `</div>`;
+  techGrid.appendChild(section);
+});
+
+
+    // Projects
+   const projects = [
+  {
+  title: 'Real Estate Web App',
+  desc: 'Listings, inquiries, booking & analytics',
+  images: ['static/re-1.png', 'static/re - (1).png', , 'static/re - (2).png', 'static/re - (3).png', 'static/re - (4).png', 'static/re - (5).png', 'static/re - (6).png', 'static/re - (7).png', 'static/re - (8).png', 'static/re - (9).png', 'static/re - (10).png'],
+  video: 'static/5.mp4',
+  details: {
+    description: 'A full-featured real estate web platform where agencies can manage property listings, handle client inquiries, accept booking requests, send quotations, assign agents, and analyze performance — all powered by Django.',
+    modules: [
+      'Admin dashboard for managing properties',
+      'Inquiry and real-time notification system',
+      'Client booking requests with calendar view',
+      'Quotation generation and email delivery',
+      'Agent assignment and profile management',
+      'Analytics and reporting with charts'
+    ]
+  }
+},
+  {
+  title: 'Hotel Management System',
+  desc: 'Soon',
+  images: [''],
+  video: '',
+  details: {
+    description: 'Soon',
+    modules: [
+      // 'Admin dashboard for managing properties',
+      // 'Inquiry and real-time notification system',
+      // 'Client booking requests with calendar view',
+      // 'Quotation generation and email delivery',
+      // 'Agent assignment and profile management',
+      // 'Analytics and reporting with charts'
+    ]
+  }
+},
+    {
+      title: 'Soon',
+      desc: 'Soon',
+      images: ['static/p3-1.jpg','static/p3-2.jpg','static/p3-3.jpg'],
+      details: {
+        description: 'Soon',
+        modules: [
+          // 'Realtime socket messaging',
+          // 'Private and group rooms',
+          // 'Emoji picker integration',
+          // 'Read receipt and typing indicator'
+        ]
+      }
+    }
+  ];
+
+  const projectGrid = document.getElementById('projectGrid');
+  projects.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'cursor-pointer bg-gray-900 rounded-xl shadow-lg hover:shadow-red-600 transition p-4 flex flex-col';
+    card.innerHTML = `<img src='${p.images[0]}' class='rounded-lg h-40 object-cover mb-4'><h4 class='font-semibold text-lg mb-2'>${p.title}</h4><p class='text-gray-400 text-sm'>${p.desc}</p>`;
+    card.dataset.index = i;
+    card.onclick = openModal;
+    projectGrid.appendChild(card);
+  });
+
+  const modal = document.getElementById('projectModal'),
+        modalTitle = document.getElementById('modalTitle'),
+        modalDesc = document.getElementById('modalDesc'),
+        swiperWrapper = document.getElementById('swiperWrapper');
+  let swiper;
+
+  function openModal(e) {
+    const proj = projects[e.currentTarget.dataset.index];
+    modalTitle.textContent = proj.title;
+    swiperWrapper.innerHTML = proj.images.map(src => `
+      <div class='swiper-slide relative flex items-center justify-center zoom-wrapper'>
+        <img src='${src}' class='zoom-img'>
+      </div>
+    `).join('');
+   modalDesc.innerHTML = `
+  <p class='text-red-300 text-sm text-center mt-4 max-w-xl mx-auto'>${proj.details.description}</p>
+
+  <ul class='mt-4 space-y-2 text-left max-w-xl mx-auto text-sm text-gray-400'>
+    ${proj.details.modules.map(item => `
+      <li class='flex items-start gap-2'>
+        <i data-lucide="check" class='text-red-500 w-4 h-4 mt-1'></i> ${item}
+      </li>`).join('')}
+  </ul>
+
+  ${proj.video ? `
+    <div class="text-center mt-6">
+      <button onclick="toggleVideo()" class="bg-red-600 hover:bg-red-500 text-white text-sm px-5 py-2 rounded-full shadow transition">🎬 Watch Demo</button>
+      <div id="videoWrapper" class="mt-4 hidden">
+        <video controls class="rounded-lg max-w-full max-h-64 mx-auto shadow border border-red-700">
+          <source src="${proj.video}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  ` : ''}
+`;
+
+
+    if (swiper) swiper.destroy(true, true);
+    swiper = new Swiper('.swiper', {
+      loop: true,
+      pagination: { el: '.swiper-pagination' },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    });
+    modal.classList.add('open');
+    document.addEventListener('keydown', escClose);
+    lucide.createIcons();
+  }
+    function escClose(e) { if (e.key === 'Escape') closeModal(); }
+    function closeModal() {
+      modal.classList.remove('open');
+      document.removeEventListener('keydown', escClose);
+    }
+    document.getElementById('closeModal').onclick = closeModal;
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  </script>
+
+
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    lucide.createIcons(); // Load Lucide icons
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".highlight").forEach((el) => observer.observe(el));
+  });
+</script>
+
+
+
+<script>
+  function handleSubmit(event) {
+    event.preventDefault(); // prevent actual form submission
+
+    // Optionally reset form fields
+    event.target.reset();
+
+    // Show success message
+    const msg = document.getElementById("formSuccess");
+    msg.classList.remove("hidden");
+    msg.classList.add("animate-fade-in");
+
+    // Optionally hide it after a few seconds
+    setTimeout(() => {
+      msg.classList.add("hidden");
+    }, 5000);
+  }
+</script>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+</style>
+<script>
+  function toggleVideo() {
+    const v = document.getElementById("videoWrapper");
+    if (v) v.classList.toggle("hidden");
+  }
+</script>
+
+</body>
+</html>
