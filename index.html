@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <style>
+
+
+
     .glow-underline {
       position: relative;
       display: inline-block;
@@ -105,21 +108,11 @@
     .animate-fade-in {
       animation: fade-in 0.4s ease-out;
     }
-.img-glow {
-  position: relative;
-  box-shadow:
-    0 0 3px #ff4d4d,
-    0 0 6px #ff1a1a,
-    0 0 10px #ff0000,
-    0 0 12px #ff6600;
-  animation: flickerFlame 1.3s infinite ease-in-out;
-  transition: box-shadow 0.5s ease, filter 0.5s ease;
-}
 
 .img-glow::before {
   content: '';
   position: absolute;
-  inset: -6px;
+  inset: 10px;
   border-radius: 999px;
   background: conic-gradient(
     from 0deg,
@@ -130,37 +123,14 @@
     #ff6600,
     #ff0000
   );
-  filter: blur(12px) brightness(1.1);
-  animation: rotateGlow 6s linear infinite, flameFlicker 0.15s infinite;
+  filter: blur(25px) brightness(1.1);
+  animation: rotateGlow 6s linear infinite, flameFlicker 0.5s infinite;
   z-index: -1;
   pointer-events: none;
   transition: opacity 0.5s ease;
 }
 
-/* Flicker animation */
-@keyframes flickerFlame {
-  0% {
-    box-shadow:
-      0 0 2px #ff4d4d,
-      0 0 5px #ff1a1a,
-      0 0 8px #ff0000,
-      0 0 10px #ff6600;
-  }
-  50% {
-    box-shadow:
-      0 0 4px #ff6b6b,
-      0 0 8px #ff3333,
-      0 0 10px #ff1a00,
-      0 0 12px #ff8000;
-  }
-  100% {
-    box-shadow:
-      0 0 3px #ff4d4d,
-      0 0 6px #ff1a1a,
-      0 0 10px #ff0000,
-      0 0 12px #ff6600;
-  }
-}
+
 
 /* Rotation (optional) */
 @keyframes rotateGlow {
@@ -232,14 +202,41 @@
 }
 
     
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out both;
+  }
+
+  .highlight {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .highlight.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .highlight.delay-100 { transition-delay: 0.1s; }
+  .highlight.delay-200 { transition-delay: 0.2s; }
+  .highlight.delay-300 { transition-delay: 0.3s; }
+  .highlight.delay-400 { transition-delay: 0.4s; }
+
+
   </style>
 
 
 </head>
 
-<body onload="showHero()" class="min-h-screen bg-gradient-to-br from-black via-red-950 to-red-800 text-white relative overflow-x-hidden noise-overlay">
+<body onload="showHero()" class="min-h-screen bg-gradient-to-tr from-black via-gray-900 to-red-900 text-white relative overflow-x-hidden noise-overlay">
 
-  <canvas id="embers"></canvas>
+  <!-- <canvas id="embers"></canvas> -->
 
   <!-- Navbar -->
   <header class="glass-nav fixed top-0 inset-x-0 z-40">
@@ -282,61 +279,67 @@
     </main>
   </section>
 
-  <!-- Projects -->
-  <section id="projects" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold mb-10 text-center neon-text">Projects</h2>
-    <div id="projectGrid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"></div>
-  </section>
+ <!-- REVISED PROJECTS SECTION -->
+<section id="projects" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+  <h2 class="text-3xl font-bold mb-10 text-center neon-text">Projects</h2>
+  <div id="projectGrid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Cards dynamically generated here -->
+  </div>
+</section>
 
-  <!-- Tech Stack -->
-  <section id="tech" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-10 neon-text">My Tech Stack</h2>
-    <div id="techGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 text-red-300"></div>
-  </section>
+<!-- 💻 Tech Stack -->
+<section id="tech" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+  <h2 class="text-3xl sm:text-4xl font-bold mb-14 text-white">My Tech Stack</h2>
+  <div id="techGrid" class="grid gap-y-12 text-white"></div>
+</section>
+
 
   <!-- About -->
 <section id="about" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-  <h2 class="text-4xl font-extrabold mb-12 text-center neon-text tracking-tight">About Me</h2>
+  <h2 class="text-4xl font-extrabold mb-12 text-center text-red-400 tracking-tight">About Me</h2>
 
-  <div class="bg-gradient-to-br from-gray-800 to-gray-900 border border-red-700 shadow-2xl rounded-2xl p-8 sm:p-12 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 text-red-200">
+  <div class="bg-gradient-to-br from-gray-900 to-gray-800 border border-red-700/40 rounded-2xl p-8 sm:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 shadow-lg">
 
     <!-- Bio Column -->
-    <div>
-      <h3 class="text-2xl font-semibold text-white mb-4">Who I Am</h3>
-      <p class="text-lg leading-relaxed">
-        Hi, I'm <span class="text-white font-semibold">NJ Jayme</span>, a backend-oriented developer with solid experience in <span class="text-white font-medium">Python, Django, and WordPress</span>.
+    <div class="space-y-5 text-red-200 text-lg leading-relaxed">
+      <h3 class="text-2xl font-semibold text-white">Who I Am</h3>
+      <p>
+        Hi, I'm <span class="text-white font-semibold">NJ Jayme</span>, a backend-oriented developer with solid experience in
+        <span class="text-white font-medium">Python, Django, and WordPress</span>.
       </p>
-      <p class="text-lg leading-relaxed mt-4">
-        I also work on frontend projects using <span class="text-white font-medium">Vue.js and Tailwind CSS</span>. While I don't claim to be a designer, I build clean, responsive UIs with attention to structure and performance.
+      <p>
+        I also build UIs using <span class="text-white font-medium">Vue.js</span> and <span class="text-white font-medium">Tailwind CSS</span> — 
+        not a designer, but I focus on clean, responsive, and well-structured interfaces.
       </p>
-      <p class="text-lg leading-relaxed mt-4">
-        I’m capable of developing <span class="text-white font-medium">desktop applications using C#</span> and planning to expand into <span class="text-white font-medium">mobile development</span> to offer cross-platform solutions.
+      <p>
+        I develop <span class="text-white font-medium">desktop apps using C#</span>, and I'm now exploring 
+        <span class="text-white font-medium">mobile development</span> with Flutter to offer full-stack, cross-platform solutions.
       </p>
     </div>
 
     <!-- Highlights Column -->
     <div>
-      <h3 class="text-2xl font-semibold text-white mb-4">Highlights</h3>
-      <ul class="space-y-4 text-left">
-        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 highlight">
-          <i data-lucide="server" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
-          <span class="text-lg">Strong backend skills with Django, Python, and REST APIs</span>
+      <h3 class="text-2xl font-semibold text-white mb-6">Highlights</h3>
+      <ul class="space-y-5 text-left text-red-200">
+        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
+          <i data-lucide="server" class="text-red-500 w-6 h-6 mt-1"></i>
+          <span>Strong backend skills with Django, Python, and REST APIs</span>
         </li>
-        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-100 highlight">
-          <i data-lucide="globe" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
-          <span class="text-lg">Experienced in WordPress development and CMS customization</span>
+        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
+          <i data-lucide="globe" class="text-red-500 w-6 h-6 mt-1"></i>
+          <span>Experienced in WordPress development and CMS customization</span>
         </li>
-        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-200 highlight">
-          <i data-lucide="app-window" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
-          <span class="text-lg">Develops desktop apps using C# and Windows Forms / WPF</span>
+        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
+          <i data-lucide="app-window" class="text-red-500 w-6 h-6 mt-1"></i>
+          <span>Develops desktop apps using C# and Windows Forms / WPF</span>
         </li>
-        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-300 highlight">
-          <i data-lucide="smartphone" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
-          <span class="text-lg">Currently learning mobile development with Flutter</span>
+        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
+          <i data-lucide="smartphone" class="text-red-500 w-6 h-6 mt-1"></i>
+          <span>Currently learning mobile development with Flutter</span>
         </li>
-        <li class="flex items-start gap-3 opacity-0 translate-y-3 transition duration-500 delay-400 highlight">
-          <i data-lucide="briefcase" class="text-red-500 w-6 h-6 shrink-0 mt-1"></i>
-          <span class="text-lg">Completed real freelance projects for clients</span>
+        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
+          <i data-lucide="briefcase" class="text-red-500 w-6 h-6 mt-1"></i>
+          <span>Completed real freelance projects for clients</span>
         </li>
       </ul>
     </div>
@@ -348,46 +351,52 @@
 
 
 
+
+
   <!-- Contact -->
-<section id="contact" class="section hidden py-20 px-6 bg-red-950 bg-opacity-70 rounded-t-3xl shadow-inner">
-  <div class="max-w-xl mx-auto bg-gray-900 border border-red-700 rounded-2xl shadow-xl p-8 sm:p-10">
-    <h2 class="text-3xl font-bold neon-text text-center mb-4">Let’s Build Something Great</h2>
+<section id="contact" class="section hidden py-20 px-4 sm:px-6 max-w-3xl mx-auto">
+  <div class="bg-gradient-to-br from-gray-900 to-gray-800 border border-red-700/30 rounded-2xl shadow-md p-8 sm:p-10">
+
+    <h2 class="text-3xl font-bold text-center text-red-400 mb-4 tracking-tight">Let’s Build Something Great</h2>
     <p class="text-red-200 text-center mb-8">
-      Drop me a message and I’ll get back to you shortly.
+      Drop me a message — I’ll get back to you shortly.
     </p>
 
     <form onsubmit="handleSubmit(event)" method="POST" class="space-y-6">
       <div>
         <label for="name" class="block text-sm text-red-300 mb-1">Your Name</label>
         <input type="text" id="name" name="name" required
-               class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" />
+               class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all" />
       </div>
 
       <div>
         <label for="email" class="block text-sm text-red-300 mb-1">Email Address</label>
         <input type="email" id="email" name="email" required
-               class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500" />
+               class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all" />
       </div>
 
       <div>
         <label for="message" class="block text-sm text-red-300 mb-1">Your Message</label>
         <textarea id="message" name="message" rows="5" required
-                  class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                  class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all"></textarea>
       </div>
 
       <div class="text-center">
         <button type="submit"
-                class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white text-lg px-8 py-3 rounded-full shadow-lg transition glow-link">
-          <i data-lucide="send"></i> Send Message
+                class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-base px-6 py-3 rounded-full shadow hover:shadow-red-600 transition duration-300">
+          <i data-lucide="send" class="w-5 h-5"></i>
+          Send Message
         </button>
       </div>
 
-      <div id="formSuccess" class="hidden mt-6 text-green-400 text-center text-lg font-semibold">
-  ✅ Message sent successfully!
-</div>
+      <div id="formSuccess" class="hidden mt-6 text-green-400 text-center text-base font-medium animate-fade-in">
+        ✅ Message sent successfully!
+      </div>
     </form>
+
   </div>
 </section>
+
 
 
   <!-- Modal -->
@@ -406,251 +415,324 @@
       </div>
     </div>
   </div>
-  <script>
-    function toggleVideo() {
-      const v = document.getElementById("videoWrapper");
-      if (v) v.classList.toggle("hidden");
-    }
-  </script>
+ <!-- ====================== 🔥 HERO NAVIGATION ====================== -->
+<script>
+  function toggleNav() {
+    const nav = document.getElementById("mobileMenu");
+    nav.classList.toggle("hidden");
+  }
 
-  <!-- Scripts -->
-  <script>
-    function toggleNav() {
-      const nav = document.getElementById("mobileMenu");
-      nav.classList.toggle("hidden");
-    }
+  function showHero() {
+    document.getElementById("hero").classList.add("show");
+    window.scrollTo(0, 0);
+  }
 
-    function showHero() {
-      document.getElementById("hero").classList.add("show");
-      window.scrollTo(0, 0);
-    }
-
-    document.querySelectorAll('.nav').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = e.target.dataset.target;
-        document.querySelectorAll('.section,#hero').forEach(s => {
-          s.classList.add('hidden');
-          s.classList.remove('show');
-        });
-        const sec = document.getElementById(id);
-        sec.classList.remove('hidden');
-        setTimeout(() => sec.classList.add('show'), 20);
-
-        // Hide mobile menu
-        const mobileMenu = document.getElementById("mobileMenu");
-        if (!mobileMenu.classList.contains("hidden")) {
-          mobileMenu.classList.add("hidden");
-        }
+  document.querySelectorAll('.nav').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = e.target.dataset.target;
+      document.querySelectorAll('.section, #hero').forEach(s => {
+        s.classList.add('hidden');
+        s.classList.remove('show');
       });
+      const sec = document.getElementById(id);
+      sec.classList.remove('hidden');
+      setTimeout(() => sec.classList.add('show'), 20);
+
+      // Hide mobile menu after navigation
+      const mobileMenu = document.getElementById("mobileMenu");
+      if (!mobileMenu.classList.contains("hidden")) {
+        mobileMenu.classList.add("hidden");
+      }
     });
+  });
+</script>
 
-    // Embers background
-    const canvas = document.getElementById('embers'), ctx = canvas.getContext('2d');
-    const colors = ['rgba(255,70,70,','rgba(255,160,60,','rgba(255,240,200,'];
-    let parts = [];
-    function resize() {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-    }
-    resize();
-    addEventListener('resize', resize);
-    for (let i = 0; i < 150; i++) {
-      parts.push({
-        x: Math.random() * innerWidth,
-        y: Math.random() * innerHeight,
-        size: Math.random() * 4 + 1,
-        speedY: Math.random() * 0.7 + 0.2,
-        speedX: Math.random() * 1.5 - 0.75,
-        alpha: Math.random() * 0.4 + 0.2,
-        angle: Math.random() * 6.28,
-        rot: (Math.random() - 0.5) * 0.1,
-        color: colors[Math.random() * 3 | 0],
-        flare: Math.random() < 0.03
-      });
-    }
-    (function loop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      parts.forEach(p => {
-        p.angle += p.rot;
-        p.x += Math.cos(p.angle) * p.speedX;
-        p.y -= p.speedY;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.flare ? p.size * 2 : p.size, 0, 6.28);
-        ctx.fillStyle = `${p.color}${p.flare ? 1 : p.alpha})`;
-        ctx.shadowBlur = p.flare ? 20 : 0;
-        ctx.fill();
-        if (p.y < -5 || p.x < -5 || p.x > canvas.width + 5) {
-          p.y = canvas.height + 5;
-          p.x = Math.random() * canvas.width;
-        }
-      });
-      requestAnimationFrame(loop);
-    })();
+<!-- ====================== ✨ ANIMATED BACKGROUND (EMBERS) ====================== -->
+<script>
+  const canvas = document.getElementById('embers'),
+        ctx = canvas.getContext('2d');
+  const colors = ['rgba(255,70,70,','rgba(255,160,60,','rgba(255,240,200,'];
+  let parts = [];
 
-    // Tech stack
- const techCategories = {
-  "Frontend": [
-    { name: 'HTML5', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-    { name: 'CSS3', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-    { name: 'JavaScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-    { name: 'Vue.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
-    { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-ar21.svg' }
-  ],
-  "Backend": [
-    { name: 'Python', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-    { name: 'Django', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
-    { name: 'C#', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg' }
-  ],
-  "Database": [
-    { name: 'PostgreSQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' }
-  ],
-  "Mobile & Others": [
-    { name: 'Flutter', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' }
-  ]
-};
+  function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-const skillLevels = {
-  'HTML5': '30%',
-  'CSS3': '15%',
-  'JavaScript': '16%',
-  'Python': '25%',
-  'Django': '35%',
-  'Vue.js': '23%',
-  'Tailwind': '34%',
-  'PostgreSQL': '70%',
-  'C#': '28%',
-  'Flutter': '29%'
-};
+  for (let i = 0; i < 150; i++) {
+    parts.push({
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight,
+      size: Math.random() * 4 + 1,
+      speedY: Math.random() * 0.7 + 0.2,
+      speedX: Math.random() * 1.5 - 0.75,
+      alpha: Math.random() * 0.4 + 0.2,
+      angle: Math.random() * 6.28,
+      rot: (Math.random() - 0.5) * 0.1,
+      color: colors[Math.floor(Math.random() * 3)],
+      flare: Math.random() < 0.03
+    });
+  }
 
-const techGrid = document.getElementById('techGrid');
+  (function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    parts.forEach(p => {
+      p.angle += p.rot;
+      p.x += Math.cos(p.angle) * p.speedX;
+      p.y -= p.speedY;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.flare ? p.size * 2 : p.size, 0, 6.28);
+      ctx.fillStyle = `${p.color}${p.flare ? 1 : p.alpha})`;
+      ctx.shadowBlur = p.flare ? 20 : 0;
+      ctx.fill();
+      if (p.y < -5 || p.x < -5 || p.x > canvas.width + 5) {
+        p.y = canvas.height + 5;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+    requestAnimationFrame(loop);
+  })();
+</script>
+
+<!-- ====================== 🧠 TECH STACK RENDERING ====================== -->
+<script>
+  const techCategories = {
+    "Frontend": [
+      { name: 'HTML5', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+      { name: 'CSS3', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+      { name: 'JavaScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+      { name: 'Vue.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+      { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-ar21.svg' }
+    ],
+    "Backend": [
+      { name: 'Python', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+      { name: 'Django', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
+      { name: 'C#', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg' }
+    ],
+    "Database": [
+      { name: 'PostgreSQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' }
+    ],
+    "Mobile & Others": [
+      { name: 'Flutter', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' }
+    ]
+  };
+
+  const skillLevels = {
+    'HTML5': '30%',
+    'CSS3': '15%',
+    'JavaScript': '16%',
+    'Python': '25%',
+    'Django': '35%',
+    'Vue.js': '23%',
+    'Tailwind': '34%',
+    'PostgreSQL': '70%',
+    'C#': '28%',
+    'Flutter': '29%'
+  };
+
+  const techGrid = document.getElementById('techGrid');
 techGrid.innerHTML = '';
 
 Object.entries(techCategories).forEach(([category, tools]) => {
   const section = document.createElement('div');
-  section.innerHTML = `<h3 class="text-xl font-semibold text-white mb-4 mt-10 text-left w-full col-span-full">${category}</h3>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-4 w-full">`;
+  section.className = 'mb-12 w-full';
+
+  const heading = document.createElement('h3');
+  heading.className = 'text-lg font-semibold text-left mb-6 text-gray-300';
+  heading.textContent = category;
+  section.appendChild(heading);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8';
 
   tools.forEach(t => {
-    const level = skillLevels[t.name] || '70%';
-    section.innerHTML += `
-      <div class="flex flex-col items-center space-y-2">
-        <img src="${t.url}" class="w-12 h-12" title="${t.name}" />
-        <span>${t.name}</span>
-        <div class="w-full h-2 bg-gray-700 rounded mt-1 relative group">
-          <div class="h-2 bg-red-600 rounded" style="width: ${level};" title="${level} proficient"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 -top-8 text-xs text-white bg-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-            ${level} proficient
-          </div>
-        </div>
-      </div>
+    const level = parseInt(skillLevels[t.name]) || 70;
+    const circumference = 2 * Math.PI * 24;
+    const offset = circumference - (level / 100) * circumference;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex flex-col items-center text-center space-y-3 group relative';
+
+    const tooltip = document.createElement('div');
+    tooltip.className = `
+      absolute bottom-full mb-2 bg-black text-white text-xs px-3 py-1 rounded opacity-0
+      group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-10
     `;
+    tooltip.textContent = `${t.name} — ${level}%`;
+
+    // Icon inside a circle
+    const iconWrapper = document.createElement('div');
+    iconWrapper.className = 'relative w-20 h-20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300';
+
+    const circleBG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circleBG.setAttribute('r', '24');
+    circleBG.setAttribute('cx', '30');
+    circleBG.setAttribute('cy', '30');
+    circleBG.setAttribute('stroke', '#2d2d2d');
+    circleBG.setAttribute('stroke-width', '5');
+    circleBG.setAttribute('fill', 'none');
+
+    const circleFG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circleFG.setAttribute('r', '24');
+    circleFG.setAttribute('cx', '30');
+    circleFG.setAttribute('cy', '30');
+    circleFG.setAttribute('stroke', '#ef4444');
+    circleFG.setAttribute('stroke-width', '5');
+    circleFG.setAttribute('fill', 'none');
+    circleFG.setAttribute('stroke-dasharray', circumference);
+    circleFG.setAttribute('stroke-dashoffset', circumference.toString());
+    circleFG.classList.add('progress-circle');
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '60');
+    svg.setAttribute('height', '60');
+    svg.appendChild(circleBG);
+    svg.appendChild(circleFG);
+
+    const img = document.createElement('img');
+    img.src = t.url;
+    img.alt = t.name;
+    img.title = t.name;
+    img.className = 'w-10 h-10 absolute';
+
+    iconWrapper.appendChild(svg);
+    iconWrapper.appendChild(img);
+
+    const label = document.createElement('div');
+    label.className = 'text-sm text-gray-300';
+    label.textContent = t.name;
+
+    wrapper.appendChild(tooltip);
+    wrapper.appendChild(iconWrapper);
+    wrapper.appendChild(label);
+    grid.appendChild(wrapper);
+
+    // Animate on visible
+    wrapper.dataset.offset = offset;
   });
 
-  section.innerHTML += `</div>`;
+  section.appendChild(grid);
   techGrid.appendChild(section);
 });
 
+// Animate circle when visible
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fg = entry.target.querySelector('.progress-circle');
+      if (fg) {
+        fg.style.transition = 'stroke-dashoffset 1s ease-out';
+        fg.setAttribute('stroke-dashoffset', entry.target.dataset.offset);
+      }
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
 
-    // Projects
-   const projects = [
-  {
-  title: 'Real Estate Web App',
-  desc: 'Listings, inquiries, booking & analytics',
-  images: ['static/re-1.png', 'static/re - (1).png', , 'static/re - (2).png', 'static/re - (3).png', 'static/re - (4).png', 'static/re - (5).png', 'static/re - (6).png', 'static/re - (7).png', 'static/re - (8).png', 'static/re - (9).png', 'static/re - (10).png'],
-  video: 'static/5.mp4',
-  details: {
-    description: 'A full-featured real estate web platform where agencies can manage property listings, handle client inquiries, accept booking requests, send quotations, assign agents, and analyze performance — all powered by Django.',
-    modules: [
-      'Admin dashboard for managing properties',
-      'Inquiry and real-time notification system',
-      'Client booking requests with calendar view',
-      'Quotation generation and email delivery',
-      'Agent assignment and profile management',
-      'Analytics and reporting with charts'
-    ]
-  }
-},
-  {
-  title: 'Hotel Management System',
-  desc: 'Soon',
-  images: [''],
-  video: '',
-  details: {
-    description: 'Soon',
-    modules: [
-      // 'Admin dashboard for managing properties',
-      // 'Inquiry and real-time notification system',
-      // 'Client booking requests with calendar view',
-      // 'Quotation generation and email delivery',
-      // 'Agent assignment and profile management',
-      // 'Analytics and reporting with charts'
-    ]
-  }
-},
+document.querySelectorAll('#techGrid .group').forEach(el => observer.observe(el));
+
+</script>
+
+<!-- ====================== 🧱 PROJECTS & MODAL ====================== -->
+<script>
+  const projects = [
     {
-      title: 'Soon',
-      desc: 'Soon',
-      images: ['static/p3-1.jpg','static/p3-2.jpg','static/p3-3.jpg'],
+      title: 'Real Estate Web App',
+      desc: 'Listings, inquiries, booking & analytics',
+      images: ['static/img/re-1.png','static/img/re-2.png','static/img/re-3.png','static/img/re-4.png','static/img/re-5.png','static/img/re-6.png','static/img/re-7.png','static/img/re-8.png','static/img/re-9.png','static/img/re-10.png','static/img/re-11.png'],
+      video: 'static/5.mp4',
       details: {
-        description: 'Soon',
+        description: 'A full-featured real estate platform with Django backend.',
         modules: [
-          // 'Realtime socket messaging',
-          // 'Private and group rooms',
-          // 'Emoji picker integration',
-          // 'Read receipt and typing indicator'
+          'Admin dashboard for managing properties',
+          'Inquiry and notification system',
+          'Client booking and calendar view',
+          'Quotation and email delivery',
+          'Agent assignment and profiles',
+          'Analytics and reports'
         ]
+      }
+    },
+    {
+      title: 'Hotel Management System',
+      desc: 'Room booking, inventory and accounting',
+      images: ['static/hotel-thumb.jpg'],
+      video: '',
+      details: {
+        description: 'A Django-based hotel management suite (coming soon).',
+        modules: []
+      }
+    },
+    {
+      title: 'Soon...',
+      desc: 'More projects coming soon',
+      images: ['static/p3-1.jpg'],
+      video: '',
+      details: {
+        description: 'Placeholder for upcoming work.',
+        modules: []
       }
     }
   ];
 
   const projectGrid = document.getElementById('projectGrid');
+  const modal = document.getElementById('projectModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const swiperWrapper = document.getElementById('swiperWrapper');
+  let swiper;
+
+  projectGrid.innerHTML = '';
+
   projects.forEach((p, i) => {
     const card = document.createElement('div');
+    const imgSrc = p.images.length > 0 ? p.images[0] : 'static/default-thumb.jpg';
     card.className = 'cursor-pointer bg-gray-900 rounded-xl shadow-lg hover:shadow-red-600 transition p-4 flex flex-col';
-    card.innerHTML = `<img src='${p.images[0]}' class='rounded-lg h-40 object-cover mb-4'><h4 class='font-semibold text-lg mb-2'>${p.title}</h4><p class='text-gray-400 text-sm'>${p.desc}</p>`;
+    card.innerHTML = `
+      <img src="${imgSrc}" onerror="this.onerror=null;this.src='static/default-thumb.jpg';"
+           class="rounded-lg h-40 object-cover mb-4 w-full">
+      <h4 class="font-semibold text-lg mb-2">${p.title}</h4>
+      <p class="text-gray-400 text-sm">${p.desc}</p>`;
     card.dataset.index = i;
-    card.onclick = openModal;
+    card.addEventListener('click', openModal);
     projectGrid.appendChild(card);
   });
-
-  const modal = document.getElementById('projectModal'),
-        modalTitle = document.getElementById('modalTitle'),
-        modalDesc = document.getElementById('modalDesc'),
-        swiperWrapper = document.getElementById('swiperWrapper');
-  let swiper;
 
   function openModal(e) {
     const proj = projects[e.currentTarget.dataset.index];
     modalTitle.textContent = proj.title;
+
     swiperWrapper.innerHTML = proj.images.map(src => `
-      <div class='swiper-slide relative flex items-center justify-center zoom-wrapper'>
-        <img src='${src}' class='zoom-img'>
-      </div>
-    `).join('');
-   modalDesc.innerHTML = `
-  <p class='text-red-300 text-sm text-center mt-4 max-w-xl mx-auto'>${proj.details.description}</p>
+      <div class="swiper-slide flex items-center justify-center">
+        <img src="${src}" class="rounded-lg max-h-[20rem] object-contain" alt="">
+      </div>`).join('');
 
-  <ul class='mt-4 space-y-2 text-left max-w-xl mx-auto text-sm text-gray-400'>
-    ${proj.details.modules.map(item => `
-      <li class='flex items-start gap-2'>
-        <i data-lucide="check" class='text-red-500 w-4 h-4 mt-1'></i> ${item}
-      </li>`).join('')}
-  </ul>
+    modalDesc.innerHTML = `
+      <p class="text-red-300 text-sm text-center mt-4 max-w-xl mx-auto">${proj.details.description}</p>
+      ${proj.details.modules.length ? `
+        <ul class="mt-4 space-y-2 text-left max-w-xl mx-auto text-sm text-gray-400">
+          ${proj.details.modules.map(m => `
+            <li class="flex items-start gap-2">
+              <i data-lucide="check" class="text-red-500 w-4 h-4 mt-1"></i> ${m}
+            </li>`).join('')}
+        </ul>` : ''}
+      ${proj.video ? `
+        <div class="text-center mt-6">
+          <button onclick="toggleVideo()" class="bg-red-600 hover:bg-red-500 text-white text-sm px-5 py-2 rounded-full shadow transition">🎬 Watch Demo</button>
+          <div id="videoWrapper" class="mt-4 hidden">
+            <video controls class="rounded-lg max-w-full max-h-64 mx-auto shadow border border-red-700">
+              <source src="${proj.video}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>` : ''}`;
 
-  ${proj.video ? `
-    <div class="text-center mt-6">
-      <button onclick="toggleVideo()" class="bg-red-600 hover:bg-red-500 text-white text-sm px-5 py-2 rounded-full shadow transition">🎬 Watch Demo</button>
-      <div id="videoWrapper" class="mt-4 hidden">
-        <video controls class="rounded-lg max-w-full max-h-64 mx-auto shadow border border-red-700">
-          <source src="${proj.video}" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  ` : ''}
-`;
-
+    modal.classList.add('open');
+    document.addEventListener('keydown', escClose);
+    lucide.createIcons();
 
     if (swiper) swiper.destroy(true, true);
     swiper = new Swiper('.swiper', {
@@ -658,62 +740,74 @@ Object.entries(techCategories).forEach(([category, tools]) => {
       pagination: { el: '.swiper-pagination' },
       navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
     });
-    modal.classList.add('open');
-    document.addEventListener('keydown', escClose);
-    lucide.createIcons();
   }
-    function escClose(e) { if (e.key === 'Escape') closeModal(); }
-    function closeModal() {
-      modal.classList.remove('open');
-      document.removeEventListener('keydown', escClose);
-    }
-    document.getElementById('closeModal').onclick = closeModal;
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-  </script>
 
+  function closeModal() {
+    modal.classList.remove('open');
+    document.removeEventListener('keydown', escClose);
+  }
 
+  function escClose(e) {
+    if (e.key === 'Escape') closeModal();
+  }
 
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+</script>
+
+<!-- ====================== 🎬 VIDEO TOGGLE ====================== -->
+<script>
+  function toggleVideo() {
+    const v = document.getElementById("videoWrapper");
+    if (v) v.classList.toggle("hidden");
+  }
+</script>
+
+<!-- ====================== 🔍 ANIMATION ON SCROLL ====================== -->
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons(); // Load Lucide icons
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
 
-    document.querySelectorAll(".highlight").forEach((el) => observer.observe(el));
+          // Apply a staggered delay based on index
+          el.style.transitionDelay = `${index * 100}ms`;
+
+          // Trigger animation
+          el.classList.add("opacity-100", "translate-y-0");
+          el.classList.remove("opacity-0", "translate-y-3");
+
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".highlight").forEach(el => observer.observe(el));
   });
 </script>
 
 
 
+<!-- ====================== ✅ FORM SUBMISSION HANDLER ====================== -->
 <script>
   function handleSubmit(event) {
-    event.preventDefault(); // prevent actual form submission
-
-    // Optionally reset form fields
+    event.preventDefault();
     event.target.reset();
 
-    // Show success message
     const msg = document.getElementById("formSuccess");
     msg.classList.remove("hidden");
     msg.classList.add("animate-fade-in");
 
-    // Optionally hide it after a few seconds
-    setTimeout(() => {
-      msg.classList.add("hidden");
-    }, 5000);
+    setTimeout(() => msg.classList.add("hidden"), 5000);
   }
 </script>
 
+<!-- Fade animation style -->
 <style>
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(10px); }
@@ -723,12 +817,6 @@ Object.entries(techCategories).forEach(([category, tools]) => {
     animation: fade-in 0.4s ease-out;
   }
 </style>
-<script>
-  function toggleVideo() {
-    const v = document.getElementById("videoWrapper");
-    if (v) v.classList.toggle("hidden");
-  }
-</script>
 
 </body>
 </html>
