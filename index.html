@@ -664,12 +664,45 @@ document.querySelectorAll('#techGrid .group').forEach(el => observer.observe(el)
     },
     {
       title: 'Hotel Management System',
-      desc: 'Room booking, inventory and accounting',
+      desc: 'Dashboard preview of the hotel management system built with Django and Vue.js — showcasing room bookings, inventory stats, and accounting summaries.',
       images: ['static/img/hotel/0.png','static/img/hotel/2.png','static/img/hotel/3.png','static/img/hotel/4.png','static/img/hotel/5.png','static/img/hotel/6.png','static/img/hotel/7.png','static/img/hotel/8.png','static/img/hotel/9.png','static/img/hotel/10.png','static/img/hotel/11.png','static/img/hotel/12.png','static/img/hotel/13.png','static/img/hotel/14.png','static/img/hotel/15.png','static/img/hotel/16.png','static/img/hotel/17.png','static/img/hotel/18.png','static/img/hotel/19.png','static/img/hotel/20.png','static/img/hotel/21.png'],
       video: '',
       details: {
-        description: 'A Django- and Vue.js-based hotel management suite (coming soon).',
-        modules: []
+        description: 'A full-featured hotel management system built with Django and Vue.js, offering advanced functionality for room reservations, guest services, and daily operations. The platform includes a drag-and-drop calendar for managing reservations and service schedules, real-time housekeeping and room status tracking, detailed folio and payment handling, integrated double-entry accounting, and inventory management with barcode support — all in one seamless suite.',
+        modules: [
+  // 🛏 Hotel Management
+  'Room Types & Room Management',
+  'Amenities & Holiday Pricing',
+  'Reservations with Overlap Validation',
+  'Drag-and-Drop Reservation Calendar (for booking, editing, reassigning rooms)',
+  'Guest Profiles (User-linked & External)',
+  'Housekeeping Logs & Room Status Automation',
+  'Photo Gallery per Room',
+  'Room Blocking (Out of Service)',
+  'Folio Charges & Daily Rate Breakdown',
+  'Reservation Payments & Deposits',
+  'Guest Services (Laundry, Spa, Transport, Room Service)',
+  'Drag-and-Drop Service Calendar (for scheduling and tracking guest services)',
+
+  // 📘 Accounting
+  'Chart of Accounts (COA)',
+  'Categories (Expense & Revenue)',
+  'Vendor & Invoice Tracking',
+  'Journal Entries (Double-entry Bookkeeping)',
+  'Expenses & Revenue Entries',
+  'Bank Accounts',
+  'Taxes',
+  'Recurring Entries',
+  'Accounting Periods',
+  'Audit Logs',
+
+  // 📦 Inventory
+  'Inventory Categories',
+  'Inventory Items with Barcode Image Generation',
+  'Stock Control with Reorder Alerts',
+  'Inventory Transactions (Restock, Usage, Adjustment)',
+  'Reservation-linked Inventory Consumption'
+]
       }
     },
     {
