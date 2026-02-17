@@ -1,860 +1,513 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <title>NJ Jayme — Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-  document.addEventListener('contextmenu', event => event.preventDefault());
-</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NJ Jayme — Backend Developer</title>
 
-  <style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #059669; }
 
-    .glow-underline {
-      position: relative;
-      display: inline-block;
-    }
-    .glow-underline::after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: rgba(239, 68, 68, 0.7);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
-    }
-    .glow-underline:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-    .section {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      min-height: calc(100vh - 80px);
-    }
-    .section.show {
-      opacity: 1;
-      transform: none;
-    }
-    #hero {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    #hero.show {
-      opacity: 1;
-      transform: none;
-    }
-    @keyframes neon {
-      0%, 100% { text-shadow: 0 0 4px #ff4d4d, 0 0 10px #ff1a1a, 0 0 20px #ff0000; }
-      50% { text-shadow: 0 0 8px #ff6666, 0 0 20px #ff3333, 0 0 30px #ff0000; }
-    }
-    .neon-text {
-      animation: neon 2s ease-in-out infinite;
-    }
-    .float {
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-    canvas#embers {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -10;
-      pointer-events: none;
-    }
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 50;
-    }
-    .modal.open {
-      display: flex;
-      animation: fadeIn 0.25s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .glass-nav {
-      backdrop-filter: blur(10px);
-      background: rgba(0, 0, 0, 0.4);
-    }
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fade-in 0.4s ease-out;
-    }
+        /* Glass Effect - Light Mode */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
 
-.img-glow::before {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  border-radius: 999px;
-  background: conic-gradient(
-    from 0deg,
-    #ff0000,
-    #ff6600,
-    #ffaa00,
-    #ffcc00,
-    #ff6600,
-    #ff0000
-  );
-  filter: blur(25px) brightness(1.1);
-  animation: rotateGlow 6s linear infinite, flameFlicker 0.5s infinite;
-  z-index: -1;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
 
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-
-/* Rotation (optional) */
-@keyframes rotateGlow {
-  to { transform: rotate(360deg); }
-}
-
-/* Optional: subtle pulse flicker */
-@keyframes flameFlicker {
-  0%, 100% { filter: blur(12px) brightness(1.1); }
-  50% { filter: blur(14px) brightness(1.3); }
-}
-
-/* 👇 Fade glow out on hover */
-.img-glow:hover {
-  box-shadow: none;
-}
-.img-glow:hover::before {
-  opacity: 0;
-}
-
-@keyframes flameFlicker {
-  0%   { opacity: 0.85; transform: scale(1); }
-  20%  { opacity: 0.95; transform: scale(1.05); }
-  40%  { opacity: 0.8;  transform: scale(1.02); }
-  60%  { opacity: 1;    transform: scale(1.06); }
-  80%  { opacity: 0.9;  transform: scale(1.03); }
-  100% { opacity: 0.87; transform: scale(1); }
-}
-@keyframes rotateGlow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.ember-sparks {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  animation: riseSparks 1.5s infinite ease-in-out;
-}
-
-.ember-sparks::before,
-.ember-sparks::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: radial-gradient(circle, #ff6a00, #ff0000);
-  border-radius: 9999px;
-  opacity: 0.9;
-  animation: flickerSpark 0.8s infinite alternate, riseSparkY 1.8s linear infinite;
-}
-
-.ember-sparks::after {
-  left: 75%;
-  top: 80%;
-  width: 3px;
-  height: 3px;
-  animation-delay: 0.4s, 0.3s;
-}
-
-@keyframes flickerSpark {
-  0% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.3); }
-  100% { opacity: 0.3; transform: scale(0.9); }
-}
-
-@keyframes riseSparkY {
-  0%   { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-100%) translateX(-10%); }
-}
-
-    
-
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out both;
-  }
-
-  .highlight {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .highlight.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .highlight.delay-100 { transition-delay: 0.1s; }
-  .highlight.delay-200 { transition-delay: 0.2s; }
-  .highlight.delay-300 { transition-delay: 0.3s; }
-  .highlight.delay-400 { transition-delay: 0.4s; }
-
-
-  </style>
-
-
+        /* Utility for intersection observer */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 
-<body onload="showHero()" class="min-h-screen bg-gradient-to-tr from-black via-gray-900 to-red-900 text-white relative overflow-x-hidden noise-overlay">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-900 overflow-x-hidden relative">
 
-  <!-- <canvas id="embers"></canvas> -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-green-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-teal-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-4000"></div>
+    </div>
 
-  <!-- Navbar -->
-  <header class="glass-nav fixed top-0 inset-x-0 z-40">
-    <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
-      <span class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 animate-pulse drop-shadow-[0_0_5px_rgba(255,0,128,0.6)] hover:drop-shadow-[0_0_15px_rgba(255,0,128,1)] transition-all duration-300 ease-in-out">
-  NJ Jayme
-</span>
-      <button onclick="toggleNav()" class="md:hidden text-white text-2xl">&#9776;</button>
-     <ul class="hidden md:flex items-center gap-6 text-base font-medium">
-  <li><a href="#hero" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="hero">Home</a></li>
-  <li><a href="#projects" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="projects">Projects</a></li>
-  <li><a href="#tech" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="tech">Tech Stack</a></li>
-  <li><a href="#about" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="about">About</a></li>
-  <li><a href="#contact" class="nav glow-underline text-white hover:text-red-400 transition duration-300" data-target="contact">Contact</a></li>
-</ul>
+    <header class="fixed top-0 inset-x-0 z-50 glass shadow-sm">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+            <a href="#hero" class="text-xl font-bold tracking-tight hover:text-emerald-600 transition flex items-center gap-2 text-slate-900">
+                <span class="text-emerald-600">&lt;/&gt;</span> NJ Jayme
+            </a>
 
-    </nav>
+            <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <li><a href="#projects" class="hover:text-emerald-600 transition duration-300">Projects</a></li>
+                <li><a href="#tech" class="hover:text-emerald-600 transition duration-300">Stack</a></li>
+                <li><a href="#about" class="hover:text-emerald-600 transition duration-300">About</a></li>
+                <li><a href="#contact" class="px-5 py-2 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition shadow-lg shadow-emerald-200">Contact</a></li>
+            </ul>
 
-   <ul id="mobileMenu" class="md:hidden hidden flex-col gap-4 text-base font-medium px-6 pb-4">
-  <li><a href="#hero" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="hero">Home</a></li>
-  <li><a href="#projects" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="projects">Projects</a></li>
-  <li><a href="#tech" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="tech">Tech Stack</a></li>
-  <li><a href="#about" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="about">About</a></li>
-  <li><a href="#contact" class="nav glow-underline text-white hover:text-red-400 transition duration-300 block py-2" data-target="contact">Contact</a></li>
-</ul>
+            <button onclick="toggleNav()" class="md:hidden text-slate-600 hover:text-emerald-600">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
 
-  </header>
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full left-0 shadow-lg">
+            <ul class="flex flex-col p-6 gap-4 text-center text-slate-600">
+                <li><a href="#projects" onclick="toggleNav()" class="block py-2 hover:text-emerald-600">Projects</a></li>
+                <li><a href="#tech" onclick="toggleNav()" class="block py-2 hover:text-emerald-600">Stack</a></li>
+                <li><a href="#about" onclick="toggleNav()" class="block py-2 hover:text-emerald-600">About</a></li>
+                <li><a href="#contact" onclick="toggleNav()" class="block py-2 text-emerald-600 font-bold">Contact Me</a></li>
+            </ul>
+        </div>
+    </header>
 
-  <!-- Hero -->
-  <section id="hero" class="min-h-screen flex items-center justify-center pt-24 px-4 text-center">
-    <main class="text-center">
-  <div class="img-container relative w-40 h-40 mx-auto mb-6 rounded-full overflow-visible img-glow float">
-  <img src="static/me.jpg" class="w-full h-full object-cover rounded-full border-4 border-red-600" alt="Me">
-  <div class="ember-sparks absolute inset-0 pointer-events-none z-10"></div>
-</div>
-
-
-
-
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide neon-text">NJ JAYME</h1>
-      <p class="text-base sm:text-lg md:text-xl text-red-300 mt-2">WEB DEVELOPER | DIGITAL CRAFTSMAN</p>
-    </main>
-  </section>
-
- <!-- REVISED PROJECTS SECTION -->
-<section id="projects" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-  <h2 class="text-3xl font-bold mb-10 text-center neon-text">Projects</h2>
-  <div id="projectGrid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    <!-- Cards dynamically generated here -->
-  </div>
-</section>
-
-<!-- 💻 Tech Stack -->
-<section id="tech" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center">
-  <h2 class="text-3xl sm:text-4xl font-bold mb-14 neon-text">My Tech Stack</h2>
-  <div id="techGrid" class="grid gap-y-12 text-white"></div>
-</section>
-
-
-  <!-- About -->
-<section id="about" class="section hidden py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-  <h2 class="text-4xl font-extrabold mb-12 text-center tracking-tight neon-text">About Me</h2>
-
-  <div class="bg-gradient-to-br from-gray-900 to-gray-800 border border-red-700/40 rounded-2xl p-8 sm:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 shadow-lg">
-
-    <!-- Bio Column -->
-    <div class="space-y-5 text-red-200 text-lg leading-relaxed">
-      <h3 class="text-2xl font-semibold text-white neon-text">Who I Am</h3>
-     <p>
-  Hi, I'm <span class="text-white font-semibold">NJ Jayme</span>, a backend developer with solid experience in
-  <span class="text-white font-medium">Python</span> and <span class="text-white font-medium">Django</span>.
+    <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20 relative">
+        <div class="text-center max-w-4xl mx-auto reveal active">
+            <div class="mb-8 relative inline-block">
+                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full blur opacity-40"></div>
+                <img src="./static/me.jpg" alt="Profile" class="relative w-40 h-40 rounded-full border-4 border-white object-cover shadow-2xl mx-auto" />
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-slate-900">
+                Web <span class="text-gradient">Developer</span> <br /> Backend Specialist.
+            </h1>
+            
+           <p class="text-slate-600 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+    Hi, I'm <strong class="text-emerald-700">NJ Jayme</strong>. I'm a Web Developer specializing in Python and Django. 
+    I focus on building reliable backend systems and seamless user experiences that help businesses grow.
 </p>
-      <p>
-        I also build UIs using <span class="text-white font-medium">Vue.js</span> and <span class="text-white font-medium">Tailwind CSS</span> — 
-        not a designer, but I focus on clean, responsive, and well-structured interfaces.
-      </p>
-      <p>
-        I develop <span class="text-white font-medium">desktop apps using C#</span>, and I'm now exploring 
-        <span class="text-white font-medium">mobile development</span> with Flutter to offer full-stack, cross-platform solutions.
-      </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="group bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-full font-semibold transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+                    View Projects <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                </a>
+                <a href="#contact" class="bg-white hover:bg-slate-50 text-slate-700 px-8 py-3.5 rounded-full font-semibold transition border border-slate-200 shadow-sm hover:shadow-md">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Featured Work</h2>
+                <div class="h-1 w-20 bg-emerald-500 rounded"></div>
+            </div>
+            <p class="text-slate-500 mt-4 md:mt-0">A selection of my recent development projects.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 reveal">
+                <div class="relative overflow-hidden h-56">
+                    <img src="./static/img/re-1.png" alt="Real Estate" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-emerald-900/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
+                        <button onclick="openModal('modal1')" class="bg-white text-emerald-700 p-3 rounded-full hover:scale-110 transition shadow-lg">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Real Estate Web App</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-2">A comprehensive property listing platform with booking engine, inquiry management, and CRM features.</p>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold text-emerald-700 mb-4">
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Django</span>
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">PostgreSQL</span>
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 reveal delay-100">
+                <div class="relative overflow-hidden h-56">
+                    <img src="./static/img/hotel/1.png" alt="Hotel System" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-emerald-900/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
+                        <button onclick="openModal('modal2')" class="bg-white text-emerald-700 p-3 rounded-full hover:scale-110 transition shadow-lg">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Hotel Management System</h3>
+                    <p class="text-slate-600 text-sm mb-4 line-clamp-2">Full-stack hotel reservation system including accounting modules, inventory tracking, and admin dashboards.</p>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold text-emerald-700 mb-4">
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Python</span>
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Vue.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 reveal delay-200">
+                <div class="relative overflow-hidden h-56 bg-slate-100 flex items-center justify-center">
+                    <i data-lucide="loader" class="w-12 h-12 text-slate-400 animate-spin-slow"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Work in Progress</h3>
+                    <p class="text-slate-600 text-sm mb-4">Currently developing a SaaS solution for local logistics. Stay tuned for updates.</p>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold text-emerald-700 mb-4">
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">FastAPI</span>
+                        <span class="bg-emerald-50 px-2 py-1 rounded border border-emerald-100">React</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech" class="py-24 px-6 bg-white border-y border-slate-100">
+        <div class="max-w-6xl mx-auto text-center reveal">
+            <h2 class="text-3xl font-bold text-slate-900 mb-2">Technologies</h2>
+            <p class="text-slate-500 mb-12">My preferred weaponry for building digital products.</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="code-2"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">Python</h4>
+                </div>
+
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="layout-template"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">Django</h4>
+                </div>
+
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="database"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">PostgreSQL</h4>
+                </div>
+
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="file-code"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">Vue.js</h4>
+                </div>
+
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="palette"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">Tailwind</h4>
+                </div>
+
+                <div class="p-6 rounded-xl bg-slate-50 hover:bg-white hover:shadow-lg hover:shadow-emerald-100 hover:-translate-y-1 transition border border-slate-100 group">
+                    <div class="mx-auto bg-white shadow-sm w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-emerald-600 group-hover:text-emerald-500 transition">
+                        <i data-lucide="container"></i>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 group-hover:text-emerald-700">Docker</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 max-w-4xl mx-auto text-center reveal">
+        <h2 class="text-3xl font-bold text-slate-900 mb-8">About Me</h2>
+        <div class="prose prose-lg mx-auto text-slate-600">
+            <p>
+                I specialize in building <span class="text-emerald-600 font-bold bg-emerald-50 px-1 rounded">scalable backend systems</span>. 
+                My experience ranges from creating complex hotel management platforms to high-performance inventory tracking solutions.
+            </p>
+            <p class="mt-4">
+                I believe that good code is invisible—it just works. I focus on writing clean, maintainable, and efficient code that powers seamless user experiences.
+                When I'm not coding, I'm exploring new tech stacks or optimizing database queries for fun.
+            </p>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 px-6 relative">
+        <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100 reveal">
+            <h2 class="text-3xl font-bold text-center mb-2 text-slate-900">Let's Work Together</h2>
+            <p class="text-center text-slate-500 mb-8">Have a project in mind? Send me a message.</p>
+            
+            <form action="https://formspree.io/f/xjgerjya" method="POST" class="space-y-4">
+    <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-slate-700 ml-1">Name</label>
+            <input type="text" name="name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition text-slate-800" placeholder="John Doe">
+        </div>
+        <div class="space-y-2">
+            <label class="text-sm font-medium text-slate-700 ml-1">Email</label>
+            <input type="email" name="email" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition text-slate-800" placeholder="john@example.com">
+        </div>
+    </div>
+    
+    <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-700 ml-1">Message</label>
+        <textarea name="message" rows="4" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition text-slate-800" placeholder="Tell me about your project..."></textarea>
     </div>
 
-    <!-- Highlights Column -->
-    <div>
-      <h3 class="text-2xl font-semibold text-white neon-text mb-6">Highlights</h3>
-      <ul class="space-y-5 text-left text-red-200">
-        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
-          <i data-lucide="server" class="text-red-500 w-6 h-6 mt-1"></i>
-          <span>Strong backend skills with Django, Python, and REST APIs</span>
-        </li>
-        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
-          <i data-lucide="globe" class="text-red-500 w-6 h-6 mt-1"></i>
-          <span>Experienced in WordPress development and CMS customization</span>
-        </li>
-        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
-          <i data-lucide="app-window" class="text-red-500 w-6 h-6 mt-1"></i>
-          <span>Develops desktop apps using C# and Windows Forms / WPF</span>
-        </li>
-        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
-          <i data-lucide="smartphone" class="text-red-500 w-6 h-6 mt-1"></i>
-          <span>Currently learning mobile development with Flutter</span>
-        </li>
-        <li class="flex items-start gap-3 highlight opacity-0 translate-y-3 transition duration-500">
-          <i data-lucide="briefcase" class="text-red-500 w-6 h-6 mt-1"></i>
-          <span>Completed real freelance projects for clients</span>
-        </li>
-      </ul>
+    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200 transition transform hover:-translate-y-1">
+        Send Message
+    </button>
+</form>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-slate-500 text-sm border-t border-slate-200 bg-slate-50">
+        <div class="flex justify-center gap-6 mb-4">
+            <a href="#" class="hover:text-emerald-600 transition"><i data-lucide="github"></i></a>
+            <a href="#" class="hover:text-emerald-600 transition"><i data-lucide="linkedin"></i></a>
+            <a href="#" class="hover:text-emerald-600 transition"><i data-lucide="twitter"></i></a>
+        </div>
+        <p>&copy; 2026 NJ Jayme <span class="text-emerald-600 font-semibold">Backend</span> <span class="text-emerald-600 font-semibold">Developer</span>.</p>
+    </footer>
+
+    <div id="modal1" class="fixed inset-0 z-[100] hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeModal('modal1')"></div>
+        <div class="bg-white w-full max-w-3xl rounded-2xl p-6 relative z-10 shadow-2xl animate-fade-in-up">
+            <button onclick="closeModal('modal1')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Real Estate Web App</h3>
+            
+            <div class="relative group rounded-xl overflow-hidden mb-6 bg-slate-100 aspect-video shadow-inner">
+                <img id="modal1-img" src="./static/img/re-1.png" class="w-full h-full object-contain">
+                
+                <button onclick="changeSlide('modal1', -1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-slate-800 hover:bg-emerald-600 hover:text-white transition shadow-md">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <button onclick="changeSlide('modal1', 1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-slate-800 hover:bg-emerald-600 hover:text-white transition shadow-md">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
+
+            <p class="text-slate-600 mb-6 leading-relaxed">
+                A robust platform allowing agents to list properties and users to book viewings. Features include a dynamic search engine, google maps integration, and an admin dashboard for analytics.
+            </p>
+
+            <div class="flex gap-4">
+                <a href="#" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-center py-3 rounded-lg text-white font-medium transition shadow-md">Live Demo</a>
+                <a href="#" class="flex-1 bg-slate-100 hover:bg-slate-200 text-center py-3 rounded-lg text-slate-800 font-medium transition">GitHub Repo</a>
+            </div>
+        </div>
     </div>
 
-  </div>
-</section>
+    <div id="modal2" class="fixed inset-0 z-[100] hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeModal('modal2')"></div>
+        <div class="bg-white w-full max-w-3xl rounded-2xl p-6 relative z-10 shadow-2xl animate-fade-in-up">
+            <button onclick="closeModal('modal2')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Hotel Management System</h3>
+            
+            <div class="relative group rounded-xl overflow-hidden mb-6 bg-slate-100 aspect-video shadow-inner">
+                <img id="modal2-img" src="./static/img/hotel/1.png" class="w-full h-full object-contain">
+                <button onclick="changeSlide('modal2', -1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-slate-800 hover:bg-emerald-600 hover:text-white transition shadow-md">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <button onclick="changeSlide('modal2', 1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full text-slate-800 hover:bg-emerald-600 hover:text-white transition shadow-md">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
 
+            <p class="text-slate-600 mb-6">
+                Streamlines hotel operations including room reservations, guest check-in/out, and financial reporting. Built with Python and Vue.js for a responsive experience.
+            </p>
 
-
-
-
-
-
-  <!-- Contact -->
-<section id="contact" class="section hidden py-20 px-4 sm:px-6 max-w-3xl mx-auto">
-  <div class="bg-gradient-to-br from-gray-900 to-gray-800 border border-red-700/30 rounded-2xl shadow-md p-8 sm:p-10">
-
-    <h2 class="text-3xl font-bold text-center mb-4 tracking-tight neon-text">Let’s Build Something Great</h2>
-    <p class="text-red-200 text-center mb-8">
-      Drop me a message — I’ll get back to you shortly.
-    </p>
-
-    <form onsubmit="handleSubmit(event)" method="POST" class="space-y-6">
-      <div>
-        <label for="name" class="block text-sm text-red-300 mb-1">Your Name</label>
-        <input type="text" id="name" name="name" required
-               class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all" />
-      </div>
-
-      <div>
-        <label for="email" class="block text-sm text-red-300 mb-1">Email Address</label>
-        <input type="email" id="email" name="email" required
-               class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all" />
-      </div>
-
-      <div>
-        <label for="message" class="block text-sm text-red-300 mb-1">Your Message</label>
-        <textarea id="message" name="message" rows="5" required
-                  class="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none transition-all"></textarea>
-      </div>
-
-      <div class="text-center">
-        <button type="submit"
-                class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-base px-6 py-3 rounded-full shadow hover:shadow-red-600 transition duration-300">
-          <i data-lucide="send" class="w-5 h-5"></i>
-          Send Message
-        </button>
-      </div>
-
-      <div id="formSuccess" class="hidden mt-6 text-green-400 text-center text-base font-medium animate-fade-in">
-        ✅ Message sent successfully!
-      </div>
-    </form>
-
-  </div>
-</section>
-
-
-
-  <!-- Modal -->
-  <div id="projectModal" class="modal">
-    <div class="relative w-full max-w-2xl bg-gray-900 rounded-xl p-6 shadow-lg flex flex-col gap-4 max-h-[90vh] overflow-hidden">
-      <button id="closeModal" class="absolute top-3 right-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center z-60">&times;</button>
-      <h3 id="modalTitle" class="text-2xl font-semibold text-center"></h3>
-      <div class="swiper w-full h-64 sm:h-72 md:h-80 lg:h-[22rem] xl:h-[24rem] rounded-lg shrink-0">
-        <div class="swiper-wrapper" id="swiperWrapper"></div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-      </div>
-      <div class="overflow-y-auto max-h-[calc(90vh-22rem)] px-1 pb-2">
-        <div id="modalDesc" class="text-gray-300 text-center mt-2 px-2"></div>
-      </div>
+            <div class="flex gap-4">
+                <a href="#" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-center py-3 rounded-lg text-white font-medium transition shadow-md">Live Demo</a>
+                <a href="#" class="flex-1 bg-slate-100 hover:bg-slate-200 text-center py-3 rounded-lg text-slate-800 font-medium transition">GitHub Repo</a>
+            </div>
+        </div>
     </div>
-  </div>
- <!-- ====================== 🔥 HERO NAVIGATION ====================== -->
-<script>
-  function toggleNav() {
-    const nav = document.getElementById("mobileMenu");
-    nav.classList.toggle("hidden");
-  }
 
-  function showHero() {
-    document.getElementById("hero").classList.add("show");
-    window.scrollTo(0, 0);
-  }
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-  document.querySelectorAll('.nav').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = e.target.dataset.target;
-      document.querySelectorAll('.section, #hero').forEach(s => {
-        s.classList.add('hidden');
-        s.classList.remove('show');
-      });
-      const sec = document.getElementById(id);
-      sec.classList.remove('hidden');
-      setTimeout(() => sec.classList.add('show'), 20);
-
-      // Hide mobile menu after navigation
-      const mobileMenu = document.getElementById("mobileMenu");
-      if (!mobileMenu.classList.contains("hidden")) {
-        mobileMenu.classList.add("hidden");
-      }
-    });
-  });
-</script>
-
-<!-- ====================== ✨ ANIMATED BACKGROUND (EMBERS) ====================== -->
-<script>
-  const canvas = document.getElementById('embers'),
-        ctx = canvas.getContext('2d');
-  const colors = ['rgba(255,70,70,','rgba(255,160,60,','rgba(255,240,200,'];
-  let parts = [];
-
-  function resize() {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (let i = 0; i < 150; i++) {
-    parts.push({
-      x: Math.random() * innerWidth,
-      y: Math.random() * innerHeight,
-      size: Math.random() * 4 + 1,
-      speedY: Math.random() * 0.7 + 0.2,
-      speedX: Math.random() * 1.5 - 0.75,
-      alpha: Math.random() * 0.4 + 0.2,
-      angle: Math.random() * 6.28,
-      rot: (Math.random() - 0.5) * 0.1,
-      color: colors[Math.floor(Math.random() * 3)],
-      flare: Math.random() < 0.03
-    });
-  }
-
-  (function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    parts.forEach(p => {
-      p.angle += p.rot;
-      p.x += Math.cos(p.angle) * p.speedX;
-      p.y -= p.speedY;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.flare ? p.size * 2 : p.size, 0, 6.28);
-      ctx.fillStyle = `${p.color}${p.flare ? 1 : p.alpha})`;
-      ctx.shadowBlur = p.flare ? 20 : 0;
-      ctx.fill();
-      if (p.y < -5 || p.x < -5 || p.x > canvas.width + 5) {
-        p.y = canvas.height + 5;
-        p.x = Math.random() * canvas.width;
-      }
-    });
-    requestAnimationFrame(loop);
-  })();
-</script>
-
-<!-- ====================== 🧠 TECH STACK RENDERING ====================== -->
-<script>
-  const techCategories = {
-    "Frontend": [
-      { name: 'HTML5', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-      { name: 'CSS3', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-      { name: 'JavaScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-      { name: 'Vue.js', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
-      { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-ar21.svg' }
-    ],
-    "Backend": [
-      { name: 'Python', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-      { name: 'Django', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
-      { name: 'C#', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg' }
-    ],
-    "Database": [
-      { name: 'PostgreSQL', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' }
-    ],
-    "Mobile & Others": [
-      { name: 'Flutter', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' }
-    ]
-  };
-
-  const skillLevels = {
-    'HTML5': '30%',
-    'CSS3': '15%',
-    'JavaScript': '16%',
-    'Python': '25%',
-    'Django': '35%',
-    'Vue.js': '23%',
-    'Tailwind': '34%',
-    'PostgreSQL': '70%',
-    'C#': '28%',
-    'Flutter': '29%'
-  };
-
-  const techGrid = document.getElementById('techGrid');
-techGrid.innerHTML = '';
-
-Object.entries(techCategories).forEach(([category, tools]) => {
-  const section = document.createElement('div');
-  section.className = 'mb-12 w-full';
-
-  const heading = document.createElement('h3');
-  heading.className = 'text-lg font-semibold text-left mb-6 text-gray-300';
-  heading.textContent = category;
-  section.appendChild(heading);
-
-  const grid = document.createElement('div');
-  grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8';
-
-  tools.forEach(t => {
-    const level = parseInt(skillLevels[t.name]) || 70;
-    const circumference = 2 * Math.PI * 24;
-    const offset = circumference - (level / 100) * circumference;
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'flex flex-col items-center text-center space-y-3 group relative';
-
-    const tooltip = document.createElement('div');
-    tooltip.className = `
-      absolute bottom-full mb-2 bg-black text-white text-xs px-3 py-1 rounded opacity-0
-      group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-10
-    `;
-    tooltip.textContent = `${t.name} — ${level}%`;
-
-    // Icon inside a circle
-    const iconWrapper = document.createElement('div');
-    iconWrapper.className = 'relative w-20 h-20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300';
-
-    const circleBG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circleBG.setAttribute('r', '24');
-    circleBG.setAttribute('cx', '30');
-    circleBG.setAttribute('cy', '30');
-    circleBG.setAttribute('stroke', '#2d2d2d');
-    circleBG.setAttribute('stroke-width', '5');
-    circleBG.setAttribute('fill', 'none');
-
-    const circleFG = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circleFG.setAttribute('r', '24');
-    circleFG.setAttribute('cx', '30');
-    circleFG.setAttribute('cy', '30');
-    circleFG.setAttribute('stroke', '#ef4444');
-    circleFG.setAttribute('stroke-width', '5');
-    circleFG.setAttribute('fill', 'none');
-    circleFG.setAttribute('stroke-dasharray', circumference);
-    circleFG.setAttribute('stroke-dashoffset', circumference.toString());
-    circleFG.classList.add('progress-circle');
-
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '60');
-    svg.setAttribute('height', '60');
-    svg.appendChild(circleBG);
-    svg.appendChild(circleFG);
-
-    const img = document.createElement('img');
-    img.src = t.url;
-    img.alt = t.name;
-    img.title = t.name;
-    img.className = 'w-10 h-10 absolute';
-
-    iconWrapper.appendChild(svg);
-    iconWrapper.appendChild(img);
-
-    const label = document.createElement('div');
-    label.className = 'text-sm text-gray-300';
-    label.textContent = t.name;
-
-    wrapper.appendChild(tooltip);
-    wrapper.appendChild(iconWrapper);
-    wrapper.appendChild(label);
-    grid.appendChild(wrapper);
-
-    // Animate on visible
-    wrapper.dataset.offset = offset;
-  });
-
-  section.appendChild(grid);
-  techGrid.appendChild(section);
-});
-
-// Animate circle when visible
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const fg = entry.target.querySelector('.progress-circle');
-      if (fg) {
-        fg.style.transition = 'stroke-dashoffset 1s ease-out';
-        fg.setAttribute('stroke-dashoffset', entry.target.dataset.offset);
-      }
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-
-document.querySelectorAll('#techGrid .group').forEach(el => observer.observe(el));
-
-</script>
-
-<!-- ====================== 🧱 PROJECTS & MODAL ====================== -->
-<script>
-  const projects = [
-    {
-      title: 'Real Estate Web App',
-      desc: 'Listings, inquiries, booking & analytics',
-      images: ['static/img/re-1.png','static/img/re-2.png','static/img/re-3.png','static/img/re-4.png','static/img/re-5.png','static/img/re-6.png','static/img/re-7.png','static/img/re-8.png','static/img/re-9.png','static/img/re-10.png','static/img/re-11.png'],
-      video: 'static/22.mp4',
-      details: {
-        description: 'A full-featured real estate platform with a Django backend and a Vue.js frontend.',
-        modules: [
-          'Admin dashboard for managing properties',
-          'Inquiry and notification system',
-          'Client booking and calendar view',
-          'Quotation and email delivery',
-          'Agent assignment and profiles',
-          'Analytics and reports'
-        ]
-      }
-    },
-    {
-      title: 'Hotel Management System',
-      desc: 'Dashboard preview of the hotel management system built with Django and Vue.js — showcasing room bookings, inventory stats, and accounting summaries.',
-      images: ['static/img/hotel/0-11.png','static/img/hotel/1.png','static/img/hotel/2.png','static/img/hotel/3.png','static/img/hotel/4.png','static/img/hotel/5.png','static/img/hotel/6.png','static/img/hotel/7.png','static/img/hotel/8.png','static/img/hotel/9.png','static/img/hotel/10.png','static/img/hotel/11.png','static/img/hotel/12.png','static/img/hotel/13.png','static/img/hotel/14.png','static/img/hotel/15.png','static/img/hotel/16.png','static/img/hotel/17.png','static/img/hotel/18.png','static/img/hotel/19.png','static/img/hotel/20.png','static/img/hotel/21.png','static/img/hotel/22.png','static/img/hotel/23.png','static/img/hotel/24.png','static/img/hotel/25.png','static/img/hotel/25.png','static/img/hotel/26.png','static/img/hotel/27.png','static/img/hotel/28.png','static/img/hotel/29.png','static/img/hotel/30.png','static/img/hotel/31.png','static/img/hotel/32.png'],
-      video: '',
-      details: {
-        description: 'A full-featured hotel management system built with Django and Vue.js, offering advanced functionality for room reservations, guest services, and daily operations. The platform includes a drag-and-drop calendar for managing reservations and service schedules, real-time housekeeping and room status tracking, detailed folio and payment handling, integrated double-entry accounting, and inventory management with barcode support — all in one seamless suite.',
-        modules: [
-  // 🛏 Hotel Management
-  'Room Types & Room Management',
-  'Amenities & Holiday Pricing',
-  'Reservations with Overlap Validation',
-  'Drag-and-Drop Reservation Calendar (for booking, editing, reassigning rooms)',
-  'Guest Profiles (User-linked & External)',
-  'Housekeeping Logs & Room Status Automation',
-  'Photo Gallery per Room',
-  'Room Blocking (Out of Service)',
-  'Folio Charges & Daily Rate Breakdown',
-  'Reservation Payments & Deposits',
-  'Drag-and-Drop Service Calendar (for scheduling and tracking guest services)',
-
-  // 📘 Accounting
-  'Chart of Accounts (COA)',
-  'Categories (Expense & Revenue)',
-  'Vendor & Invoice Tracking',
-  'Journal Entries (Double-entry Bookkeeping)',
-  'Expenses & Revenue Entries',
-  'Bank Accounts',
-  'Taxes',
-  'Recurring Entries',
-  'Accounting Periods',
-  'Audit Logs',
-
-  // 📦 Inventory
-  'Inventory Categories',
-  'Inventory Items with Barcode Image Generation',
-  'Stock Control with Reorder Alerts',
-  'Inventory Transactions (Restock, Usage, Adjustment)',
-  'Reservation-linked Inventory Consumption'
-]
-      }
-    },
-    {
-      title: 'Soon...',
-      desc: 'More projects coming soon',
-      images: ['static/p3-1.jpg'],
-      video: '',
-      details: {
-        description: 'Placeholder for upcoming work.',
-        modules: []
-      }
-    }
-  ];
-
-  const projectGrid = document.getElementById('projectGrid');
-  const modal = document.getElementById('projectModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
-  const swiperWrapper = document.getElementById('swiperWrapper');
-  let swiper;
-
-  projectGrid.innerHTML = '';
-
-  projects.forEach((p, i) => {
-    const card = document.createElement('div');
-    const imgSrc = p.images.length > 0 ? p.images[0] : 'static/default-thumb.jpg';
-    card.className = 'cursor-pointer bg-gray-900 rounded-xl shadow-lg hover:shadow-red-600 transition p-4 flex flex-col';
-    card.innerHTML = `
-      <img src="${imgSrc}" onerror="this.onerror=null;this.src='static/default-thumb.jpg';"
-           class="rounded-lg h-40 object-cover mb-4 w-full">
-      <h4 class="font-semibold text-lg mb-2">${p.title}</h4>
-      <p class="text-gray-400 text-sm">${p.desc}</p>`;
-    card.dataset.index = i;
-    card.addEventListener('click', openModal);
-    projectGrid.appendChild(card);
-  });
-
-  function openModal(e) {
-    const proj = projects[e.currentTarget.dataset.index];
-    modalTitle.textContent = proj.title;
-
-    swiperWrapper.innerHTML = proj.images.map(src => `
-      <div class="swiper-slide flex items-center justify-center">
-        <img src="${src}" class="rounded-lg max-h-[20rem] object-contain" alt="">
-      </div>`).join('');
-
-    modalDesc.innerHTML = `
-      <p class="text-red-300 text-sm text-center mt-4 max-w-xl mx-auto">${proj.details.description}</p>
-      ${proj.details.modules.length ? `
-        <ul class="mt-4 space-y-2 text-left max-w-xl mx-auto text-sm text-gray-400">
-          ${proj.details.modules.map(m => `
-            <li class="flex items-start gap-2">
-              <i data-lucide="check" class="text-red-500 w-4 h-4 mt-1"></i> ${m}
-            </li>`).join('')}
-        </ul>` : ''}
-      ${proj.video ? `
-        <div class="text-center mt-6">
-          <button onclick="toggleVideo()" class="bg-red-600 hover:bg-red-500 text-white text-sm px-5 py-2 rounded-full shadow transition">🎬 Watch Demo</button>
-          <div id="videoWrapper" class="mt-4 hidden">
-            <video controls class="rounded-lg max-w-full max-h-64 mx-auto shadow border border-red-700">
-              <source src="${proj.video}" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>` : ''}`;
-
-    modal.classList.add('open');
-    document.addEventListener('keydown', escClose);
-    lucide.createIcons();
-
-    if (swiper) swiper.destroy(true, true);
-    swiper = new Swiper('.swiper', {
-      loop: true,
-      pagination: { el: '.swiper-pagination' },
-      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
-    });
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-    document.removeEventListener('keydown', escClose);
-  }
-
-  function escClose(e) {
-    if (e.key === 'Escape') closeModal();
-  }
-
-  document.getElementById('closeModal').addEventListener('click', closeModal);
-  modal.addEventListener('click', e => {
-    if (e.target === modal) closeModal();
-  });
-</script>
-
-<!-- ====================== 🎬 VIDEO TOGGLE ====================== -->
-<script>
-  function toggleVideo() {
-    const v = document.getElementById("videoWrapper");
-    if (v) v.classList.toggle("hidden");
-  }
-</script>
-
-<!-- ====================== 🔍 ANIMATION ON SCROLL ====================== -->
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    lucide.createIcons(); // Load Lucide icons
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-
-          // Apply a staggered delay based on index
-          el.style.transitionDelay = `${index * 100}ms`;
-
-          // Trigger animation
-          el.classList.add("opacity-100", "translate-y-0");
-          el.classList.remove("opacity-0", "translate-y-3");
-
-          observer.unobserve(el);
+        // Mobile Nav Toggle
+        function toggleNav() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("hidden");
         }
-      });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll(".highlight").forEach(el => observer.observe(el));
-  });
-</script>
+        // Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
 
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
+        // Modal Slider Logic
+        const projectData = {
+            'modal1': {
+                currentIndex: 0,
+                images: [
+                    "./static/img/re-1.png",
+                    "./static/img/re-2.png", 
+                    "./static/img/re-3.png",
+                    "./static/img/re-4.png",
+                    "./static/img/re-5.png",
+                    "./static/img/re-6.png",
+                    "./static/img/re-7.png",
+                    "./static/img/re-8.png",
+                    "./static/img/re-9.png",
+                    "./static/img/re-10.png",
+                    "./static/img/re-11.png",
+                ]
+            },
+            'modal2': {
+                currentIndex: 0,
+                images: [
+                    "./static/img/hotel/1.png",
+                    "./static/img/hotel/2.png",
+                    "./static/img/hotel/3.png",
+                    "./static/img/hotel/4.png",
+                    "./static/img/hotel/5.png",
+                    "./static/img/hotel/6.png",
+                    "./static/img/hotel/7.png",
+                    "./static/img/hotel/8.png",
+                    "./static/img/hotel/9.png",
+                    "./static/img/hotel/10.png",
+                    "./static/img/hotel/11.png",
+                    "./static/img/hotel/12.png",
+                    "./static/img/hotel/13.png",
+                    "./static/img/hotel/14.png",
+                    "./static/img/hotel/15.png",
+                    "./static/img/hotel/16.png",
+                    "./static/img/hotel/17.png",
+                    "./static/img/hotel/18.png",
+                    "./static/img/hotel/19.png",
+                    "./static/img/hotel/20.png",
+                    "./static/img/hotel/21.png",
+                    "./static/img/hotel/22.png",
+                    "./static/img/hotel/23.png",
+                    "./static/img/hotel/24.png",
+                    "./static/img/hotel/25.png",
+                    "./static/img/hotel/26.png",
+                    "./static/img/hotel/27.png",
+                    "./static/img/hotel/28.png",
+                    "./static/img/hotel/29.png",
+                    "./static/img/hotel/30.png",
+                    "./static/img/hotel/31.png",
+                    "./static/img/hotel/32.png",
+                ]
+            }
+        };
 
-<!-- ====================== ✅ FORM SUBMISSION HANDLER ====================== -->
-<script>
-  function handleSubmit(event) {
-    event.preventDefault();
-    event.target.reset();
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        }
 
-    const msg = document.getElementById("formSuccess");
-    msg.classList.remove("hidden");
-    msg.classList.add("animate-fade-in");
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
 
-    setTimeout(() => msg.classList.add("hidden"), 5000);
-  }
-</script>
+        function changeSlide(modalId, direction) {
+            const data = projectData[modalId];
+            if (!data) return;
 
-<!-- Fade animation style -->
-<style>
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-out;
-  }
-</style>
+            data.currentIndex += direction;
 
+            if (data.currentIndex < 0) {
+                data.currentIndex = data.images.length - 1;
+            } else if (data.currentIndex >= data.images.length) {
+                data.currentIndex = 0;
+            }
+
+            const imgElement = document.getElementById(modalId + '-img');
+            imgElement.src = data.images[data.currentIndex];
+        }
+
+        // Disable Right-Click
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.onkeydown = function(e) {
+    // Disable F12
+    if(e.keyCode == 123) {
+        return false;
+    }
+    // Disable Ctrl+Shift+I (Inspect)
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+    }
+    // Disable Ctrl+Shift+J (Console)
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+    }
+    // Disable Ctrl+U (View Source)
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+    }
+};
+    </script>
 </body>
 </html>
